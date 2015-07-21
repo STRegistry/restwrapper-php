@@ -62,6 +62,16 @@ class Hosts extends Model
 	public function update(Host $host, $cltrid = false)
 	{
 		$requestData = $this->getRequestData(__FUNCTION__, $host);
+		// do not send api request if object state is the same
+		if (!count($requestData['add']) && !count($requestData['rem']) && !count($requestData['chg'])) {
+			return json_encode(array(
+				"code"    => 1000,
+				"message" =>  "OK; WARNING: No changes has been made;",
+				"cltrid"  => $cltrid ?: ApiRequest::defaultClientTransactionID(),
+				"svtrid"  => "NO_TRANSACTION",
+				"time"    => 0,
+			));
+		}
 		$json = APIRequest::POST(sprintf("/hosts/%s", $host->getName()), $cltrid ?: ApiRequest::defaultClientTransactionID(), STRegistry::Session()->getAuthToken(), array(), $requestData);
 
 		return $json;
