@@ -111,7 +111,7 @@ class Domains extends Model
 	{
 		$requestData = $this->getRequestData(__FUNCTION__, $domain);
 		// do not send api request if object state is the same
-		if (!count($requestData['add']) && !count($requestData['rem']) && !count($requestData['chg'])) {
+		if (!count(@$requestData['add']) && !count(@$requestData['rem']) && !count(@$requestData['chg'])) {
 			return json_encode(array(
 				"code"    => 1000,
 				"message" =>  "OK; WARNING: No changes has been made;",
@@ -351,19 +351,19 @@ class Domains extends Model
 		}
 
 		if ($private = $domain->getRegistrantPrivacyContactId()) {
-			$data['contacts'][Domain::CONTACT_TYPE_REGISTRANT.Domain::PRIVACY_CONTACT_SUFFIX] = $private;
+			$data['contacts'][Domain::CONTACT_TYPE_REGISTRANT_PRIVACY] = $private;
 		}
 
 		if ($private = $domain->getAdminPrivacyContactId()) {
-			$data['contacts'][Domain::CONTACT_TYPE_ADMIN.Domain::PRIVACY_CONTACT_SUFFIX] = $private;
+			$data['contacts'][Domain::CONTACT_TYPE_ADMIN_PRIVACY] = $private;
 		}
 
 		if ($private = $domain->getTechPrivacyContactId()) {
-			$data['contacts'][Domain::CONTACT_TYPE_TECH.Domain::PRIVACY_CONTACT_SUFFIX] = $private;
+			$data['contacts'][Domain::CONTACT_TYPE_TECH_PRIVACY] = $private;
 		}
 
 		if ($private = $domain->getBillingPrivacyContactId()) {
-			$data['contacts'][Domain::CONTACT_TYPE_BILLING.Domain::PRIVACY_CONTACT_SUFFIX] = $private;
+			$data['contacts'][Domain::CONTACT_TYPE_BILLING_PRIVACY] = $private;
 		}
 		return $data;
 	}

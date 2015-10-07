@@ -63,7 +63,7 @@ class Hosts extends Model
 	{
 		$requestData = $this->getRequestData(__FUNCTION__, $host);
 		// do not send api request if object state is the same
-		if (!count($requestData['add']) && !count($requestData['rem']) && !count($requestData['chg'])) {
+		if (!count(@$requestData['add']) && !count(@$requestData['rem']) && !count(@$requestData['chg'])) {
 			return json_encode(array(
 				"code"    => 1000,
 				"message" =>  "OK; WARNING: No changes has been made;",
