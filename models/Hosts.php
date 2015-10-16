@@ -166,6 +166,20 @@ class Hosts extends Model
 				$data['rem']['status'][] = $status;
 			}
 		}
+		foreach (['rem', 'add', 'chg'] as $key) {
+			if (isset($data[$key])) {
+				if (count($data[$key])) {
+					foreach ($data[$key] as $param => $value) {
+						if (empty($value) || (is_array($value)  && !count($value))) {
+							unset($data[$key][$param]);
+						}
+					}
+				}
+				if (!count($data[$key])) {
+					unset($data[$key]);
+				}
+			}
+		}
 
 		return $data;
 	}

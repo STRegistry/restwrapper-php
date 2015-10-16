@@ -82,7 +82,7 @@ class STRegistry
 	 * @param int $apiPort REST API port
 	 * @return void;
 	 */
-	public static function Init($apiHost, $apiPort = 80, $useSSL = false, $apiVersion='1.0', $apiUserAgent = 'RESTAPI-PHP-WRAPPER', $apiContentType='application/json')
+	public static function Init($apiHost, $apiPort = 443, $useSSL = true, $apiVersion='1.0', $apiUserAgent = 'RESTAPI-PHP-WRAPPER', $apiContentType='application/json')
 	{	
 		self::$_apiHost        = $apiHost;
 		self::$_apiPort        = $apiPort;

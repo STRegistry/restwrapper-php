@@ -328,14 +328,18 @@ class Domains extends Model
 				Domain::CONTACT_TYPE_BILLING    => $domain->getBillingContactId(),
 				Domain::CONTACT_TYPE_REGISTRANT => $domain->getRegistrantContactId(),
 			),
-			'ns'       => array(),
-			'authInfo' => array(
-				'pw' => $domain->getAuthCode(),
-			),
 			'status'   => $domain->getStatuses(),
 		);
+		if ($pw = $domain->getAuthCode()) {
+			$data['authInfo'] = [
+				'pw' => $pw,
+			];
+		}
 
 		foreach ($domain->getNameServers() as $hostname => $ips) {
+			if (!isset($data['ns'])) {
+				$data['ns'] = [];
+			}
 			$nsData = array(
 				'name' => $hostname,
 			);
@@ -398,8 +402,9 @@ class Domains extends Model
 				if (!isset($data['add']['contact'])) {
 					$data['add']['contact'] = array();
 				}
-
-				$data['rem']['contact'][] = array($type => $contact);
+				if ($contact) {
+					$data['rem']['contact'][] = array($type => $contact);
+				}
 				if (!empty($newContacts[$type])) {
 					$data['add']['contact'][] = array($type => $newContacts[$type]);	
 				}
@@ -453,6 +458,20 @@ class Domains extends Model
 					$data['rem']['status'] = array();
 				}
 				$data['rem']['status'][] = $status;
+			}
+		}
+		foreach (['rem', 'add', 'chg'] as $key) {
+			if (isset($data[$key])) {
+				if (count($data[$key])) {
+					foreach ($data[$key] as $param => $value) {
+						if (empty($value) || (is_array($value)  && !count($value))) {
+							unset($data[$key][$param]);
+						}
+					}
+				}
+				if (!count($data[$key])) {
+					unset($data[$key]);
+				}
 			}
 		}
 

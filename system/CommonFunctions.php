@@ -3,10 +3,10 @@
 class CommonFunctions
 {
 	/**
-	 * Converts json api response to formated object
+	 * Converts json api response to formatted object
 	 * 
 	 * @param str $jsonString string in JSON format
-	 * @param str $setResultFrom respose field from which result object param will be set
+	 * @param str $setResultFrom response field from which result object param will be set
 	 * 
 	 * @return stdClass
 	 * 
@@ -40,10 +40,10 @@ class CommonFunctions
 	/**
 	 * Format specified date using $format or return it timestamp
 	 * 
-	 * @param mixed $date formated date or timestamp
+	 * @param mixed $date formatted date or timestamp
 	 * @param str $format date function suitable date format
 	 * 
-	 * @return mixed formated date or it timestamp
+	 * @return mixed formatted date or it timestamp
 	 */
 	public static function dateFormat($date, $format = false)
 	{
